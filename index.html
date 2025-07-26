@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ha">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>₦35,000 Kyauta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at 80% 20%, #ffec70 10%, #ff74b1 60%, #4f8cff 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .confetti {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 2000;
+    }
+    .glow {
+      text-shadow: 0 0 12px #fff, 0 0 22px #4f8cff, 0 0 32px #ff74b1;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 12px #fff, 0 0 22px #4f8cff, 0 0 32px #ff74b1; }
+      to   { text-shadow: 0 0 32px #fff, 0 0 32px #4f8cff, 0 0 52px #ff74b1; }
+    }
+    .card {
+      background: rgba(255,255,255,0.95);
+      color: #2d2d2d;
+      border-radius: 24px;
+      padding: 40px 35px 35px 35px;
+      max-width: 410px;
+      box-shadow: 0 10px 40px 0 #ff74b1b3, 0 2px 12px 2px #4f8cff66;
+      position: relative;
+      margin-bottom: 30px;
+      animation: bounce-in 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes bounce-in {
+      0%   { transform: scale(0.7); opacity: 0.2; }
+      60%  { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 15px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ff74b1;
+      background: linear-gradient(90deg,#ff74b1 10%,#4f8cff 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .winner-badge {
+      display: inline-block;
+      background: linear-gradient(90deg,#ffec70,#ff74b1 60%);
+      color: #222;
+      font-weight: 800;
+      border-radius: 50px;
+      padding: 7px 18px;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px #ffec7080;
+      animation: winner-pop 1.2s infinite alternate;
+    }
+    @keyframes winner-pop {
+      from { transform: scale(1);}
+      to   { transform: scale(1.07);}
+    }
+    .timer {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      color: #4f8cff;
+      text-shadow: 0 0 6px #fff;
+    }
+    p {
+      margin-bottom: 28px;
+      font-size: 19px;
+      color: #2d2d2d;
+    }
+    button {
+      background: linear-gradient(90deg, #ff74b1 30%, #4f8cff 100%);
+      border: none;
+      color: white;
+      padding: 15px 36px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px #4f8cff33;
+      transition: transform 0.11s, box-shadow 0.11s, background 0.16s;
+      animation: shine 2.8s linear infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    button:hover {
+      transform: scale(1.08) rotate(-1deg);
+      background: linear-gradient(90deg, #ffec70 30%, #4f8cff 100%);
+      box-shadow: 0 8px 32px #ff74b155;
+    }
+    @keyframes shine {
+      0% { box-shadow: 0 4px 16px #4f8cff33;}
+      50% { box-shadow: 0 0 28px #ffec7077;}
+      100% { box-shadow: 0 4px 16px #4f8cff33;}
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.83);
+      align-items: center;
+      justify-content: center;
+      z-index: 5000;
+    }
+    .modal-content {
+      background: linear-gradient(120deg, #fff 60%, #e7e4ff 100%);
+      padding: 35px 25px;
+      border-radius: 18px;
+      max-width: 375px;
+      width: 96vw;
+      box-shadow: 0 6px 40px #4f8cff55;
+      color: #2d2d2d;
+      text-align: left;
+      position: relative;
+      animation: modal-pop 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes modal-pop {
+      0% { transform: translateY(-30px) scale(0.92); opacity: 0; }
+      70% { transform: translateY(8px) scale(1.05); opacity: 1;}
+      100% { transform: scale(1);}
+    }
+    .modal-content h2 {
+      color: #4f8cff;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+    .modal-content input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: 1.5px solid #ff74b1;
+      font-size: 1rem;
+      background: #fff8fb;
+      color: #2d2d2d;
+      box-sizing: border-box;
+      transition: border 0.2s;
+    }
+    .modal-content input:focus {
+      border: 1.5px solid #4f8cff;
+      outline: none;
+    }
+    .modal-content button {
+      width: 100%;
+      margin-top: 12px;
+      font-size: 1.08rem;
+    }
+    .close-modal {
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      font-size: 1.4rem;
+      background: none;
+      border: none;
+      color: #ff74b1;
+      cursor: pointer;
+      font-weight: 800;
+      transition: color 0.1s;
+    }
+    .close-modal:hover { color: #4f8cff;}
+    .lang-toggle {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 15px;
+      cursor: pointer;
+      color: #fff;
+      background: rgba(79,140,255,0.18);
+      padding: 7px 14px;
+      border-radius: 12px;
+      z-index: 100;
+      font-weight: 700;
+      letter-spacing: 1px;
+      transition: background 0.17s;
+    }
+    .lang-toggle:hover {
+      background: #ffec70;
+      color: #2d2d2d;
+    }
+    @media (max-width: 500px) {
+      .card, .modal-content { padding: 22px 6vw;}
+      h1 { font-size: 1.28rem;}
+      .winner-badge { font-size: .98rem;}
+    }
+  </style>
+</head>
+<body>
+  <canvas class="confetti"></canvas>
+  <div class="lang-toggle" onclick="toggleLanguage()"></div>
+  <div class="card">
+    <span class="winner-badge" id="winner-badge">👑 Nasara 7 yau</span>
+    <h1 id="giveaway-title" class="glow">🎉 Samu Kyautar ₦35,000</h1>
+    <div class="timer" id="timer"></div>
+    <p id="giveaway-text">Canja zuwa asusun Opay ɗinka nan take</p>
+    <button onclick="openModal()" id="withdraw-btn">Fara Cire Kuɗi</button>
+  </div>
+  <!-- Modal -->
+  <div class="modal" id="withdrawModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal()">×</button>
+      <h2 id="modal-title">Shigar da Bayanin Asusun Banki</h2>
+      <input type="text" id="acctName" placeholder="Account Name" autocomplete="name" />
+      <input type="number" id="acctNumber" placeholder="Account Number" autocomplete="off" />
+      <button onclick="handleWithdraw()" id="confirm-btn">Tabbatar & Cire Kuɗi</button>
+    </div>
+  </div>
+  <script>
+    // Confetti
+    const confettiCanvas = document.querySelector('.confetti');
+    const ctx = confettiCanvas.getContext('2d');
+    let confettiPieces = [];
+    function resizeConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeConfetti);
+
+    function randomColor() {
+      const colors = ['#ffec70','#ff74b1','#4f8cff','#fff','#ffd6e0','#e7e4ff'];
+      return colors[Math.floor(Math.random()*colors.length)];
+    }
+    function createConfettiPiece() {
+      const size = Math.random() * 12 + 8;
+      return {
+        x: Math.random() * confettiCanvas.width,
+        y: -size,
+        size,
+        speed: 1 + Math.random()*2.3,
+        color: randomColor(),
+        tilt: Math.random()*10 - 5,
+        tiltAngle: Math.random()*Math.PI,
+        rotate: Math.random()*2*Math.PI
+      };
+    }
+    function confettiLoop() {
+      ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+      confettiPieces.forEach((c, i) => {
+        ctx.save();
+        ctx.translate(c.x, c.y);
+        ctx.rotate(c.rotate);
+        ctx.fillStyle = c.color;
+        ctx.beginPath();
+        ctx.ellipse(0,0,c.size,c.size/2,0,0,2*Math.PI);
+        ctx.fill();
+        ctx.restore();
+        c.y += c.speed;
+        c.rotate += .01 + Math.random()*.02;
+        if (c.y > confettiCanvas.height+30) confettiPieces[i] = createConfettiPiece();
+      });
+      requestAnimationFrame(confettiLoop);
+    }
+    function startConfetti() {
+      resizeConfetti();
+      confettiPieces = Array.from({length: 44}, createConfettiPiece);
+      confettiLoop();
+    }
+    startConfetti();
+
+    // Modal
+    const modal = document.getElementById('withdrawModal');
+    function openModal() { modal.style.display = 'flex'; }
+    function closeModal() { modal.style.display = 'none'; }
+
+    // Withdraw logic
+    function handleWithdraw() {
+      const name = document.getElementById('acctName').value.trim();
+      const number = document.getElementById('acctNumber').value.trim();
+      if (name === '' || number.length < 10) {
+        alert(currentLang === 'en' ? 'Please enter valid details!' : 'Da fatan za a cike cikakken bayani!');
+        return;
+      }
+      const redirectUrl = currentLang === 'ha'
+        ? 'https://sarikin-dagomashabiru.vercel.app/ha'
+        : 'https://sarikin-dagomashabiru.vercel.app/en';
+      window.location.href = redirectUrl;
+    }
+
+    // Language Detection & Toggle
+    let currentLang = 'ha'; // Set Hausa as default
+    const translations = {
+      en: {
+        title: "🎉 Claim ₦35,000 Giveaway",
+        text: "Withdraw instantly to your Opay account",
+        modalTitle: "Enter Your Bank Details",
+        withdrawBtn: "Withdraw Now",
+        confirmBtn: "Confirm & Withdraw",
+        langLabel: "🇳🇬 Hausa",
+        winner: "👑 7 Lucky Winners Today"
+      },
+      ha: {
+        title: "🎉 Samu Kyautar ₦35,000",
+        text: "Canja zuwa asusun Opay ɗinka nan take",
+        modalTitle: "Shigar da Bayanin Asusun Banki",
+        withdrawBtn: "Fara Cire Kuɗi",
+        confirmBtn: "Tabbatar & Cire Kuɗi",
+        langLabel: "🇬🇧 English",
+        winner: "👑 Nasara 7 yau"
+      }
+    };
+    function updateLanguage() {
+      document.getElementById('giveaway-title').innerText = translations[currentLang].title;
+      document.getElementById('giveaway-text').innerText = translations[currentLang].text;
+      document.getElementById('modal-title').innerText = translations[currentLang].modalTitle;
+      document.getElementById('withdraw-btn').innerText = translations[currentLang].withdrawBtn;
+      document.getElementById('confirm-btn').innerText = translations[currentLang].confirmBtn;
+      document.querySelector('.lang-toggle').innerText = translations[currentLang].langLabel;
+      document.getElementById('winner-badge').innerText = translations[currentLang].winner;
+    }
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'ha' : 'en';
+      updateLanguage();
+    }
+    updateLanguage();
+
+    // Countdown Timer
+    // Show "Giveaway ends in: 09:34" and animate at 0:00
+    let endTime = Date.now() + 1000*60*10 + Math.floor(Math.random()*5*60*1000); // 10-15 mins from load
+    function updateTimer() {
+      let delta = Math.max(0, Math.floor((endTime - Date.now())/1000));
+      let m = String(Math.floor(delta/60)).padStart(2,'0');
+      let s = String(delta%60).padStart(2,'0');
+      let label = currentLang === 'en' ? 'Giveaway ends in:' : 'Karshen kyauta:';
+      document.getElementById('timer').innerHTML = `<span style="color:#ff74b1">${label}</span> ${m}:${s}`;
+      if (delta === 0) {
+        document.getElementById('timer').innerHTML = '<span style="color:#ff74b1; font-weight:800">Giveaway ended! 🎁</span>';
+      }
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>
